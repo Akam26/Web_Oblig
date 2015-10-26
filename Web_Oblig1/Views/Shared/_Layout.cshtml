@@ -1,0 +1,88 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link href="~/Content/Site.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <script>
+        function clearAll() {
+            document.getElementById("kategoriDatamaskin").style.backgroundColor = "#ffffff";
+            document.getElementById("kategoriMobil").style.backgroundColor = "#ffffff";
+        }
+        function kategoriAllload() {
+            clearAll();
+            document.getElementById("kat1div").style.display = "inline";
+            document.getElementById("kat2div").style.display = "inline";
+        }
+        function kategoriDatamaskinload() {
+            document.getElementById("kat1div").style.display = "inline";
+            document.getElementById("kat2div").style.display = "none";
+            clearAll();
+            document.getElementById("kategoriDatamaskin").style.backgroundColor = "#a0a0a0";
+        }
+        function kategoriMobilload() {
+            document.getElementById("kat2div").style.display = "inline";
+            document.getElementById("kat1div").style.display = "none";
+            clearAll();
+            document.getElementById("kategoriMobil").style.backgroundColor = "#a0a0a0";
+        }
+        function moveFocus() {
+            document.getElementById("navLoginList").style.display = "inline";
+            document.getElementById("username").focus();
+        }
+        function moveFocus2() {
+            document.getElementById("username").focus();
+        }
+        function removeFocus() {
+            document.getElementById("navLoginList").style.display = "none";
+        }
+    </script>
+
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("Hjem", "", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+    
+    <div class="icon-bar">
+        <img src="~/Resources/logo.png.jpg" id="logo">
+    </div>
+    
+
+    
+    <div class="container body-content">
+        <div class="row" style="margin-top:10em;">
+            <div class="col-md-2" id="sidebar" role="navigation">
+                <ul class="nav" id="sidebar-nav">
+                    <li>@Html.ActionLink("Vis varer","")</li>
+                    <li><p onclick="kategoriDatamaskinload()" id="kategoriDatamaskin">Datamaskin</p></li>
+
+                    <li><p onclick="kategoriMobilload()" id="kategoriMobil">Mobil</p></li>
+                </ul>
+            </div>
+            @RenderBody()
+        </div>
+    </div>
+
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

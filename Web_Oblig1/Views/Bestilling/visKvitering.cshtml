@@ -1,0 +1,43 @@
+﻿@model  Web_Oblig1.Models.Bestilling
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<DOCTYPE>
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Kvittering</title>
+    </head>
+
+    <body>
+        <div>
+            <h3>Takk for ditt kjøp. </h3>
+            <h4>Her er detaljene:</h4>
+            <table>
+                <tr>
+                    <td>OrderID: </td>
+                    <td>@Model.ordreID</td>
+                </tr>
+                <tr>
+                    <td>VareID: </td>
+                    <td>@Model.vareID.vareID</td>
+                </tr>
+                <tr>
+                    <td>KundeID: </td>
+                    <td>@Model.kundeID.kundeID</td>
+                </tr>
+                <tr>
+                    <td>Tidspunkt: </td>
+                    <td>@Model.tid</td>
+                </tr>
+                <tr>
+                    <td>
+                        @Html.ActionLink("Mine Bestillinger", "ListAlleBestillinger", new { kundeid = Model.kundeID }, new { @class = "btn btn-primary" })
+                    </td>
+                </tr>
+            </table><br/>
+        </div>
+    </body>
+</html>
+</DOCTYPE>

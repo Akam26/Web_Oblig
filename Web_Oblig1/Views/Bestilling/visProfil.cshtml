@@ -1,0 +1,34 @@
+﻿@model Web_Oblig1.Models.Kunde
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Min profil</h2>
+<div class="col-md-6 vare">
+    <table>
+        <tr>
+            <td>Brukernavn:</td>
+            <td>@Model.brukerNavn</td>
+        </tr>
+        <tr>
+            <td>Fornavn:</td>
+            <td>@Model.fornavn</td>
+        </tr>
+        <tr>
+            <td>Etternavn:</td>
+            <td>@Model.etterNavn</td>
+        </tr>
+        <tr>
+            <td>Adresse:</td>
+            <td>@Model.adresse</td>
+        </tr>
+    </table>
+    <br />
+    <div class="col-md-3">
+        @Html.ActionLink("Endre", "EndreKunde", new { kundeid = Model.kundeID }, new { @class = "btn btn-primary" })
+    </div>
+    <div class="col-md-3">
+        @Html.ActionLink("Mine Bestillinger", "ListAlleBestillinger", new { kundeid = Model.kundeID }, new { @class = "btn btn-primary" })
+    </div>
+</div>
+

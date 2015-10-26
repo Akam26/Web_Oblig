@@ -1,0 +1,24 @@
+﻿@model Web_Oblig1.Models.Vare
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Bestilling</h2>
+<div class="col-md-4 ">
+    <h4>Vare:</h4>
+    <img src="@Model.visBilde" style="width:100px; height:100px;" />
+    <p>@Model.navn</p>
+    <p>@Model.pris</p>
+</div> <br/>
+
+<div class="col.md-4 ">
+    <h4>Betaling:</h4>
+    <form action="/Bestilling/BestillVare" method="post">
+        <input type="hidden" name="vareID" value="@Model.vareID" />
+        <input type="hidden" name="kundeID" value="@Session["kundeID"]" />
+        <form name="betaling" action="~/Views/Bestilling/BestillVare.cshtml">
+        <input type="text" name="knr " placeholder="kortnummer(12nr)" pattern="[0-9]{12}" title="Only digits" required="required">
+        <input type="text" name="dato" placeholder="gyldig(4nr)" pattern="[0-9]{4}" title="Only digits" required="required">
+        <input type="submit" value="Bekreft"> </form>
+    </form>
+</div>

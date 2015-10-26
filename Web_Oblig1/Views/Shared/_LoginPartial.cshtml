@@ -1,0 +1,67 @@
+﻿@using Microsoft.AspNet.Identity
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
+    }
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        @if (Session["innlogget"] == null)
+        {
+            <li>@Html.ActionLink("Register", "OpprettKunde", routeValues: null, htmlAttributes: new { @class = "navbar-brand", id = "registerLink" })</li>
+        }
+        else
+        {   
+                        <li>@Html.ActionLink("Min Profil", "visProfil", new { kundeid = Session["kundeID"] })</li>
+        }
+        <li>
+            <ul class="nav pull-right">
+                <li class="dropdown" id="menuLogin">
+                    @if (Session["innlogget"] != null)
+                    {
+                        using (Html.BeginForm("loggetUt", "Bestilling", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+                            <form class="form" id="formLogout">
+                                <button class="btn" id="btnLogout" type="submit">Logg Ut</button>
+                            </form>
+
+                        }
+                    }
+                    else
+                    {
+                        using (Html.BeginForm("loggetInn", "Bestilling", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.ValidationSummary(true)
+
+                            <a class="dropdown-toggle  navbar-brand" id="navLogin" data-toggle="dropdown" href="#" onclick="moveFocus2()">Logg inn</a>
+                            <div class="dropdown-menu" id="navLoginList" style="padding:17px;" onblur="removeFocus()">
+                                <form class="form" id="formLogin" >
+                                    <input name="username" id="username" type="text" placeholder="Username" required="required" >
+                                    <input name="password" id="password" type="password" placeholder="Password" required="required"><br>
+                                    <button class="btn" id="btnLogin" type="submit">Login</button>
+                        <li>@Html.ActionLink("Register", "OpprettKunde", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+
+
+                        </form>
+                        </div>
+                        }
+            <!--<a class="dropdown-toggle" id="navLogin" href="/Bestilling/loggetInn" data-toggle="dropdown">Login</a>-->
+                    }
+
+            </li>
+        </ul></li>
+        </ul>
+}

@@ -1,0 +1,28 @@
+﻿@model Web_Oblig1.Models.Kunde
+@{ 
+    Layout = "~/Views/Shared/_Layout.cshtml";
+ } 
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpprettKunde</title>
+</head>
+<body>
+        <div class="col-md-8">
+
+            <p>@ViewBag.Feilmelding</p>
+
+
+            <form action="/Bestilling/OpprettKunde" method="post">
+                <table>
+                    <tr><td>Fornavn : </td><td><input type="text" name="Fornavn" /></td></tr>
+                    <tr><td>Etternavn :</td><td><input type="text" name="Etternavn" /></td></tr>
+                    <tr><td>Adresse : </td><td><input type="text" name="Adresse" /></td></tr>
+                    <tr><td>Brukernavn : </td><td><input type="text" name="Brukernavn" /></td></tr>
+                    <tr><td>Passord :</td><td><input type="text" name="Passord" /></td></tr>
+                    <tr><td><input type="submit" value="Opprett Kunde" /></td></tr>
+                </table>
+            </form>
+        </div>
+</body>
+</html>

@@ -1,0 +1,58 @@
+﻿@model List<Web_Oblig1.Models.Vare>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="col-md-8">
+    <div id="kat1div" class="kategorigruppe">
+       <h2>Datamaskiner</h2>
+    @foreach (var vare in Model)
+    {
+        if (@vare.kategori.kategoriID == 1)
+        {
+        <div  class="col-md-6 vare">
+            <img src="@vare.visBilde" />
+            <p>@vare.navn</p>
+            <p>@vare.pris</p>
+
+            @if (Session["innlogget"] != null)
+            {
+                @Html.ActionLink("Kjøp", "BestillVare", new { vareid = vare.vareID })
+
+            }
+            else
+            {
+                <button class="btn" id="btnBuy2" onclick="moveFocus()">Kjøp</button>
+            }
+
+        </div>
+        }
+    }
+    </div>
+
+    <div id="kat2div" class="kategorigruppe">
+        <h2>Mobiler</h2>
+        @foreach (var vare in Model)
+        {
+            if (@vare.kategori.kategoriID == 2)
+            {
+                <div class="col-md-6 vare">
+                    <img src="@vare.visBilde" />
+                    <p>@vare.navn</p>
+                    <p>@vare.pris</p>
+
+
+                    @if (Session["innlogget"] != null)
+                    {
+                        @Html.ActionLink("Kjøp", "BestillVare", new { vareid = vare.vareID })
+
+                    }
+                    else
+                    {
+                        <button class="btn" id="btnBuy2" onclick="moveFocus()">Kjøp</button>
+                    }
+                </div>
+            }
+        }
+    </div>
+    </div>

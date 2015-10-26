@@ -232,6 +232,16 @@
     <None Include="Project_Readme.html" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\BLL\BLL.csproj">
+      <Project>{0144e3d7-3ed6-4208-9093-bb278180f1de}</Project>
+      <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="Model\Model.csproj">
+      <Project>{07356f3c-7a0d-46d5-8010-b9198622963c}</Project>
+      <Name>Model</Name>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

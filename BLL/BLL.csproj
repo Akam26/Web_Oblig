@@ -52,9 +52,9 @@
       <Project>{e6d26e62-3119-4647-b4cf-788deb438ff0}</Project>
       <Name>DAL</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Web_Oblig1\Model\Model.csproj">
+    <ProjectReference Include="..\Web_Oblig1\Model\Models.csproj">
       <Project>{07356f3c-7a0d-46d5-8010-b9198622963c}</Project>
-      <Name>Model</Name>
+      <Name>Models</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

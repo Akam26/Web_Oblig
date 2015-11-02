@@ -11,7 +11,7 @@ using System.Web;
 
 namespace Web_Oblig1.Models
 {
-    public class Vare
+    public class VareModel
     {
         public int vareID { get; set; }
         public string navn { get; set; }

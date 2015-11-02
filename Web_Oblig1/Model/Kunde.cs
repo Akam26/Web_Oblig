@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
+//using System.Data.Entity;
 using System.Web;
-using System.Data.Entity.ModelConfiguration.Conventions;
+//using System.Data.Entity.ModelConfiguration.Conventions;
 
-namespace Model
+namespace Models
 {
     public class Kunde
     {
@@ -39,6 +39,7 @@ namespace Model
         [Required(ErrorMessage = "Passord må oppgis")]
         public string passord { get; set; }
         public string salt { get; set; }
-    }
 
+        public bool rettigheter { get; set; }
+    }
 }

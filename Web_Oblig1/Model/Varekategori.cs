@@ -8,15 +8,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
+//using System.Data.Entity;
 using System.Web;
-using System.Data.Entity.ModelConfiguration.Conventions;
+//using System.Data.Entity.ModelConfiguration.Conventions;
 
-namespace Model
+namespace Models
 {
     public class Kategori
     {
         public int kategoriID { get; set; }
-        public string kategorinavn { get; set;}
+        public string kategorinavn { get; set; }
     }
 }

@@ -1,10 +1,9 @@
-﻿@model List<Web_Oblig1.Models.Bestilling>
+﻿@model List<Models.Bestilling>
 @{ 
     var ajaxParma = new AjaxOptions();
     ajaxParma.Url = "/Bestilling/hentBestillinger";
     ajaxParma.UpdateTargetId = "result";
 }
-
 
     <script  src="~/Scripts/jquery-­‐1.7.1.js"></script>
     <script  src="~/Scripts/jquery.unobtrusive-­‐ajax.js"></script>
@@ -22,7 +21,7 @@
             {
                 url: "Bestilling/hentBestillinger",
                 data: {
-                   kundeid: @Session["kundeID"]
+                   kundeid: @Session["kundeID"],
                 },
                 sucess: function(){
                     getBestillingerJSON();

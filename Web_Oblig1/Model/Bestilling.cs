@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
+//using System.Data.Entity;
 using System.Web;
-using System.Data.Entity.ModelConfiguration.Conventions;
+//using System.Data.Entity.ModelConfiguration.Conventions;
 
-namespace Model
+namespace Models
 {
     public class Bestilling
     {
@@ -19,5 +19,5 @@ namespace Model
         public DateTime tid { get; set; }
     }
 
-   
+
 }

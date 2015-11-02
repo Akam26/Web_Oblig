@@ -10,11 +10,12 @@ using System.Linq;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Web;
+using Models;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Web.Mvc;
 using System.Web.SessionState;
 using System.Net.Http;
-using Web_Oblig1.Models;
+using BLL;
 
 namespace Web_Oblig1.Controllers
 {
@@ -22,8 +23,9 @@ namespace Web_Oblig1.Controllers
     {
         // GET: Bestillling
         public ActionResult ListAlleBestillinger()
-        {
-            var db = new Models.BestillingContext();
+        {//gjort
+         /*///////var db = new Models.BestillingContext();////////*/
+
             //*******1******
             /*var bestillinger = db.Bestillinger.ToList();
             var bes = new List<int>();
@@ -36,6 +38,8 @@ namespace Web_Oblig1.Controllers
                 return View(bes);
             }*/
             //*********************
+
+            /*/////////
              List<Models.Bestilling> listeAvBrukere = db.Bestillinger.ToList();
              //ViewData.Model = listeAvBrukere;
              ViewData["Melding"] = "Velg noe her: ";
@@ -43,13 +47,17 @@ namespace Web_Oblig1.Controllers
             //List<Models.Vare> listeAvBestillinger = db.Varer.ToList();
             List<Models.Bestilling> listeAvBestillinger = db.Bestillinger.ToList();
             return View(listeAvBestillinger);
+            /////////*/
+
+            var BLL = new BLL.BestillingBLL();
+            List<Bestilling> listeAvBestillinger = BLL.ListAlleBestillinger();
+            return View(listeAvBestillinger);
         }
 
         //***********2*********
         public String hentBestillinger(int kundeid)
-        {
-
-            using(var db = new Models.BestillingContext())
+        {//gjort
+            /*using(var db = new Models.BestillingContext())
             {
                 List<Models.Bestilling> bestillinger = db.Bestillinger.Where(s => s.kundeID.kundeID == kundeid).ToList();
 
@@ -69,23 +77,53 @@ namespace Web_Oblig1.Controllers
                 }
                 //return json; //hvis dere skal bruke JSON-metoden
                 return ut;
+            }*/
+            var BLL = new BLL.BestillingBLL();
+            List<Bestilling> bestillinger = BLL.hentBestillinger(kundeid);
+
+            String ut = "";
+            foreach (var b in bestillinger)
+            {
+                ut += "<table>" +
+                        "<tr><td>OrdreID: </td><td>" + b.ordreID.ToString() + "</td></tr>" +
+                        "<tr><td>KundeID: </td><td>" + b.kundeID.kundeID + "</td></tr>" +
+                        "<tr><td>Navn: </td><td>" + b.kundeID.fornavn + " " + b.kundeID.etterNavn + "</td></tr>" +
+                        "<tr><td>VareID: </td><td>" + b.vareID.vareID + "</td></tr>" +
+                        "<tr><td>Vare: </td><td>" + b.vareID.navn + "</td></tr>" +
+                        "<tr><td>Dato: </td><td>" + b.tid.ToString() + "</td></tr>" +
+                        "</table><hr/>";
             }
+            return ut;
         }
 
-       public ActionResult BestillVare(int vareid = 0) {
-            var db = new Models.BestillingContext();
+        public ActionResult BestillVare(int vareid = 0)
+        {
+            /*var db = new Models.BestillingContext();
             Models.Vare vare = db.Varer.Find(vareid);
             if(vare == null)
             {
                 return HttpNotFound();
             }
+            return View(vare);*/
+
+            var BLL = new BLL.VareBLL();
+            Vare vare = BLL.BestillVare(vareid);
+
+            if (vare == null)
+            {
+                return HttpNotFound();
+            }
             return View(vare);
-         } //Viser varen og fylle ut skjema
+        } //Viser varen og fylle ut skjema
 
         [HttpPost]
-       public ActionResult BestillVare(FormCollection innListe) {
-            int ordreid;
-            using (var db = new BestillingContext())
+        public ActionResult BestillVare(FormCollection innListe)
+        {
+            var BLL = new BLL.BestillingBLL();
+ 
+            int ordreid = BLL.bestillVare(Int32.Parse(innListe["kundeID"]), Int32.Parse(innListe["vareID"]));
+
+            /*using (var db = new BestillingContext())
             {
                 int vareID = Int32.Parse(innListe["vareID"]);
                 int kundeID = Int32.Parse(innListe["kundeID"]);
@@ -99,9 +137,9 @@ namespace Web_Oblig1.Controllers
                 db.SaveChanges();
 
                 ordreid = nyBestilling.ordreID;
-            }
+            }*/
             return RedirectToAction("visKvitering", new { ordreid });
-                //return View();
+            //return View();
         } //trykket på Bestill
         public ActionResult OpprettKunde()
         {
@@ -109,33 +147,48 @@ namespace Web_Oblig1.Controllers
         }
         public ActionResult visAlleKategorier()
         {
-            var db = new Models.BestillingContext();
-            //hent alle varer med kategori = k.id;
-            List<Models.Vare> listeAvVarer = db.Varer.ToList();
-            
-            //Det er den delen som man kan sette vare i database som er kommentert
-           /*var vare1 = new Models.Vare()
-            {
-                navn = "mac",
-                pris = 9000,
-                merke = "apple",
-                visBilde = "C:\\Users\\Akam\\Documents\\Visual Studio 2015\\Projects\\Web_Oblig1\\Web_Oblig1\\Resources\\mac.jpg"
-            };
-            var katData = db.Varekategorier.FirstOrDefault(k => k.kategoriID == 1);
-            var katMobil = db.Varekategorier.FirstOrDefault(k => k.kategoriID == 2);
+            //var db = new Models.BestillingContext();
 
-            vare1.kategori = katData;
-            //vare1.kategori = katMobil;
-            db.Varer.Add(vare1);*/
+
+            var vareBLL = new BLL.VareBLL();
+            return View(vareBLL.listeAvVarer());
+
+
+            //hent alle varer med kategori = k.id;
+            //List<Models.> listeAvVarer = db.Varer.ToList();
+
+            //Det er den delen som man kan sette vare i database som er kommentert
+            /*var vare1 = new Models.Vare()
+             {
+                 navn = "mac",
+                 pris = 9000,
+                 merke = "apple",
+                 visBilde = "C:\\Users\\Akam\\Documents\\Visual Studio 2015\\Projects\\Web_Oblig1\\Web_Oblig1\\Resources\\mac.jpg"
+             };
+             var katData = db.Varekategorier.FirstOrDefault(k => k.kategoriID == 1);
+             var katMobil = db.Varekategorier.FirstOrDefault(k => k.kategoriID == 2);
+
+             vare1.kategori = katData;
+             //vare1.kategori = katMobil;
+             db.Varer.Add(vare1);
             db.SaveChanges();
-            return View(listeAvVarer);
+            return View(listeAvVarer);*/
         }
 
         [HttpPost]
-        public ActionResult OpprettKunde(FormCollection innListe)
-        {
-                
-            try
+        public ActionResult OpprettKunde(Kunde nyKunde)
+        {//gjort
+            var BLL = new KundeBLL();
+            if (BLL.OpprettKunde(nyKunde))
+            {
+                return RedirectToAction("");
+            }
+            else
+            {
+                ViewBag.Feilmelding = "Du er allerede registrert.";
+                return View();
+            }
+            /*try
             {
                 using (var db = new Models.BestillingContext())
                 {
@@ -169,14 +222,15 @@ namespace Web_Oblig1.Controllers
             {
                 ViewBag.Feilmelding = e.Message;
                 return View();
-            }
-                         
+            }*/
+
 
         }
 
-        private static Kunde KundeID(string brukernavn, string passord)
-        {
-            using (var db = new Models.BestillingContext())
+        /*private static Kunde KundeID(string brukernavn, string passord)
+        {//gjort
+            return KundeBLL.loginn(brukernavn, passord);
+            /*using (var db = new Models.BestillingContext())
             {
                 // string innPassord = innBruker.passord;
                 //byte[] passordDb = lagHash(innBruker.Passord);
@@ -191,24 +245,29 @@ namespace Web_Oblig1.Controllers
                     return null;
                 }
             }
-        }
+        }*/
 
-        private static string KundeSalt(string u)
-        {
-            using (var db = new Models.BestillingContext())
+        private static string KundeSalt(string username)
+        {//gjort
+            var BLL = new KundeBLL();
+            return BLL.KundeSalt(username);
+            /*using (var db = new Models.BestillingContext())
             {
                 Models.Kunde funnetBruker = db.Kunder.FirstOrDefault(b => b.brukerNavn == u);
                 if (funnetBruker == null)
                     return null;
                 else
                     return funnetBruker.salt;
-            }
+            }*/
         }
 
         public ActionResult visProfil(int kundeid = 0)
-        {
-            var db = new Models.BestillingContext();
-            Models.Kunde kunde = db.Kunder.Find(kundeid);
+        {//plukker ut kunde basert på kundeid og returnerer et view med den kunden
+            var BLL = new KundeBLL();
+            Kunde kunde = BLL.visProfil(kundeid);
+
+            /*var db = new Models.BestillingContext();
+            Models.Kunde kunde = db.Kunder.Find(kundeid);*/
             if (kunde == null)
             {
                 return HttpNotFound();
@@ -218,39 +277,52 @@ namespace Web_Oblig1.Controllers
 
         public ActionResult visKvitering(int ordreID = 0)
         {
-            var db = new Models.BestillingContext();
+            /*var db = new Models.BestillingContext();
             Models.Bestilling bestilling = db.Bestillinger.Find(ordreID);
             if(bestilling==null)
             {
                 return HttpNotFound();
             }
-            return View(bestilling);      
+            return View(bestilling);  */
+
+            var BLL = new BestillingBLL();
+            Bestilling bestilling = BLL.visKvitering(ordreID);
+            if (bestilling == null)
+            {
+                return HttpNotFound();
+            }
+            return View(bestilling);
         }
-        
+
         [HttpPost]
-        public ActionResult EndreKunde(int kundeID,Kunde endreKunde)
-        {
-            
-                
-                var db = new BestillingContext();
-                Models.Kunde kunde = db.Kunder.Find(kundeID);
-                bool endringOk = EndreProfil(endreKunde);
-                if(endringOk)
-                {
-                    return RedirectToAction("visAlleKategorier");
-                }
-           
+        public ActionResult EndreKunde(int kundeID, Kunde endreKunde)
+        {//Endrer kundens informasjon
+            /*var db = new BestillingContext();
+            Models.Kunde kunde = db.Kunder.Find(kundeID);
+            bool endringOk = EndreProfil(endreKunde);
+            if(endringOk)
+            {
+                return RedirectToAction("visAlleKategorier");
+            }
+            return View();*/
+            var BLL = new KundeBLL();
+            if (BLL.EndreKunde(endreKunde))
+            {
+                return RedirectToAction("visAlleKategorier");
+            }
             return View();
         }
         public ActionResult EndreKunde(int kundeID)
-        {
-                var db = new BestillingContext();
-                Models.Kunde kunde = db.Kunder.Find(kundeID);
-                return View(kunde);
+        {//gjort
+            var BLL = new KundeBLL();
+            return View(BLL.visProfil(kundeID));
+            /*var db = new BestillingContext();
+            Models.Kunde kunde = db.Kunder.Find(kundeID);
+            return View(kunde);*/
         }
 
 
-        [HttpPost]
+        /*[HttpPost]
         public bool EndreProfil(Kunde innKunde)
         {
             var db = new Models.BestillingContext();
@@ -267,7 +339,7 @@ namespace Web_Oblig1.Controllers
             {
                 return false;
             }
-        }
+        }*/
 
 
 
@@ -278,12 +350,13 @@ namespace Web_Oblig1.Controllers
 
          }*/
 
-        [HttpPost] 
+        [HttpPost]
         public ActionResult loggetInn(string u, string p)
         {
             u = Request.Form["username"];
             p = Request.Form["password"];
-            p = CryptoLib.Encryptor.MD5Hash(p + KundeSalt(u));
+
+            /*p = CryptoLib.Encryptor.MD5Hash(p + KundeSalt(u));
             Kunde k = KundeID(u, p);
             if (k != null)
             {
@@ -296,7 +369,20 @@ namespace Web_Oblig1.Controllers
                 return RedirectToAction("");
             }
 
-            return RedirectToAction("visAlleKategorier");
+            return RedirectToAction("visAlleKategorier");*/
+            var BLL = new KundeBLL();
+            int kundeID = BLL.loginn(u, p);
+            if (kundeID != 0)
+            {
+                Session["kundeID"] = kundeID;
+                Session["innlogget"] = true;
+                return RedirectToAction("visAlleKategorier");
+            }
+            else
+            {
+                Session["innlogget"] = null;
+                return RedirectToAction("");
+            }
         }
         public ActionResult loggetUt()
         {

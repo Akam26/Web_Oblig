@@ -8,15 +8,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
+//using System.Data.Entity;
 using System.Web;
-using System.Data.Entity.ModelConfiguration.Conventions;
+//using System.Data.Entity.ModelConfiguration.Conventions;
+using DAL;
+using Models;
 
-namespace Web_Oblig1.Models
+namespace DAL
 {
-    public class Kategori
+    public class Varekategori
     {
+        [Key]
         public int kategoriID { get; set; }
-        public string kategorinavn { get; set;}
+        public string kategorinavn { get; set; }
     }
 }

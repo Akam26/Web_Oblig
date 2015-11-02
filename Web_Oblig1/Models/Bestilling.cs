@@ -19,7 +19,7 @@ namespace Web_Oblig1.Models
         [Key]
         public int ordreID { get; set; }
         public virtual Kunde kundeID { get; set; }
-        public virtual Vare vareID { get; set; }
+        public virtual VareModel vareID { get; set; }
         public DateTime tid { get; set; }
     }
 
@@ -32,7 +32,7 @@ namespace Web_Oblig1.Models
         }
 
         public DbSet<Kunde> Kunder { get; set; }
-        public DbSet<Vare> Varer { get; set; }
+        public DbSet<VareModel> Varer { get; set; }
         public DbSet<Bestilling> Bestillinger { get; set; }
         public DbSet<Kategori> Varekategorier { get; set; }
 
